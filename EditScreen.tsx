@@ -14,6 +14,7 @@ type Props = {
 export default function EditScreen({ route, navigation }: Props) {
   const { dishes } = route.params; // Access dishes from params
   const [image, setImage] = useState<string | null>(null); // State for the selected image
+  const [name, setName] = useState<string>(''); // State for the dish name
   const [description, setDescription] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [category, setCategory] = useState<string>(''); // State for the selected category
@@ -39,7 +40,7 @@ export default function EditScreen({ route, navigation }: Props) {
   };
 
   const handleAddDish = () => {
-    if (!image || !description || !price || !category) {
+    if (!image || !name || !description || !price || !category) {
       alert("Please fill in all fields.");
       return;
     }
@@ -47,8 +48,8 @@ export default function EditScreen({ route, navigation }: Props) {
     const newDish: Dish = {
       id: uuidv4(), // Use UUID for unique ID
       image,
+      name,
       description,
-      name: description,
       price: parseFloat(price),
       category, // Add the selected category
     };
@@ -71,6 +72,12 @@ export default function EditScreen({ route, navigation }: Props) {
 
   
       {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+      />
 
       <TextInput
         style={styles.input}

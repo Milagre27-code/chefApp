@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, Image } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList, Dish } from './types';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -36,7 +36,8 @@ export default function FilterScreen({ route }: FilterScreenProps) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.dishContainer}>
-            <Text style={styles.dishText}>{item.name}</Text>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <Text>{item.name}</Text>
             <Text>{item.description}</Text>
             <Text>Price: R{item.price}</Text>
             <Text>Category: {item.category}</Text>
@@ -71,6 +72,12 @@ const styles = StyleSheet.create({
   dishText: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
   },
 
 });

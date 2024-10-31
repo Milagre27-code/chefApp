@@ -26,6 +26,7 @@ export default function MenuScreen({ navigation, route }: Props) {
         renderItem={({ item }) => (
           <View style={styles.dishContainer}>
             <Image source={{ uri: item.image }} style={styles.image} />
+            <Text>{item.name}</Text>
             <Text>{item.description}</Text>
             <Text>Price: R{item.price}</Text>
             <Text>{item.category}</Text>
