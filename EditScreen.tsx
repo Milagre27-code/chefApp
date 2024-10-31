@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
+    borderRadius:30,
     marginTop:1,
     height: 40,
     borderColor: 'gray',
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   picker: {
+    borderRadius:30,
     height: 100,
     width: '100%',
     marginBottom:10 ,
@@ -144,4 +146,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+
 });
