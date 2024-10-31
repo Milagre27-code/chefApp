@@ -11,11 +11,12 @@ export type Dish = {
 
 
 export type RootStackParamList = {
-    MenuScreen:{ dishes: Dish[] };  // No params for MenuScreen
-    EditScreen: { dishes: Dish[] }; // Specify that EditScreen expects dishes as a parameter
-    CheckOutScreen: { dishes: Dish[] }; // Specify that CheckOutScreen expects dishes as a parameter
-};
-
+    MenuScreen: { dishes: Dish[] };
+    EditScreen: { dishes: Dish[] };
+    CheckOutScreen: { dishes: Dish[] };
+    FilterScreen: { dishes: Dish[] };
+  };
+  
 export type MenuScreenRouteProp = RouteProp<RootStackParamList, 'MenuScreen'>;
 export type EditScreenRouteProp = RouteProp<RootStackParamList, 'EditScreen'>;
 export type CheckOutScreenRouteProp = RouteProp<RootStackParamList, 'CheckOutScreen'>;

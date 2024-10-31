@@ -1,18 +1,17 @@
 import React from 'react';
 import { View, Text, FlatList, Button, Image, StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList, Dish } from './types'; // Adjust the import path as needed
+import { RootStackParamList, Dish } from './types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type Props = {
   route: RouteProp<RootStackParamList, 'MenuScreen'>;
-  navigation: StackNavigationProp<RootStackParamList, 'MenuScreen'>; // More specific type for navigation
+  navigation: StackNavigationProp<RootStackParamList, 'MenuScreen'>;
 };
 
 export default function MenuScreen({ navigation, route }: Props) {
-  const { dishes = [] } = route.params || {}; // Destructure dishes, default to empty array
+  const { dishes = [] } = route.params || {};
 
-  // Calculate total price and average price
   const totalPrice = dishes.reduce((sum, dish) => sum + dish.price, 0);
   const averagePrice = dishes.length > 0 ? (totalPrice / dishes.length).toFixed(2) : 0;
 
@@ -32,7 +31,11 @@ export default function MenuScreen({ navigation, route }: Props) {
         )}
       />
       <Text style={styles.averagePriceText}>Average Dish Price: R{averagePrice}</Text>
+      <View style={styles.fixToText}>
       <Button title="Edit Menu" onPress={() => navigation.navigate('EditScreen', { dishes })} />
+      <Button title="Filter Menu" onPress={() => navigation.navigate('FilterScreen', { dishes })} />
+      </View>
+
     </View>
   );
 }
@@ -57,5 +60,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 20,
+  },
+  
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
