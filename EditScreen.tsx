@@ -66,10 +66,10 @@ export default function EditScreen({ route, navigation }: Props) {
     <View style={styles.container}>
       <Text style={styles.title}>Add Dish</Text>
       
-      {/* Button to select an image */}
+   
       <Button title="Select Image from Gallery" onPress={selectImage} />
 
-      {/* Display selected image */}
+  
       {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
 
       <TextInput

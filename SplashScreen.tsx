@@ -4,6 +4,7 @@ import Logo from "./assets/logo.png";
 export default function SplashScreen(){
     return (
         <View style={styles.container}>
+            {/*Image for splash screen */}
             <Image source={Logo} style={styles.image}/>
         </View>
     )

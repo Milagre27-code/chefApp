@@ -5,8 +5,8 @@ import { RootStackParamList, Dish } from './types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type Props = {
-  route: RouteProp<RootStackParamList, 'CheckOutScreen'>; // Ensure this matches your route name
-  navigation: StackNavigationProp<RootStackParamList, 'CheckOutScreen'>; // Ensure this matches your route name
+  route: RouteProp<RootStackParamList, 'CheckOutScreen'>;
+  navigation: StackNavigationProp<RootStackParamList, 'CheckOutScreen'>;
 };
 
 export default function CheckOutScreen({ route, navigation }: Props) {

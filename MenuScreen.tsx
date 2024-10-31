@@ -4,6 +4,7 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList, Dish } from './types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+
 type Props = {
   route: RouteProp<RootStackParamList, 'MenuScreen'>;
   navigation: StackNavigationProp<RootStackParamList, 'MenuScreen'>;
@@ -17,7 +18,8 @@ export default function MenuScreen({ navigation, route }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Menu</Text>
+      <Text style={styles.title}>Menu</Text>
+      
       <FlatList
         data={dishes}
         keyExtractor={(item) => item.id.toString()}
@@ -29,13 +31,14 @@ export default function MenuScreen({ navigation, route }: Props) {
             <Text>{item.category}</Text>
           </View>
         )}
+        ListEmptyComponent={<Text style={styles.noDataText}>No dishes available</Text>}
       />
+
       <Text style={styles.averagePriceText}>Average Dish Price: R{averagePrice}</Text>
       <View style={styles.fixToText}>
-      <Button title="Edit Menu" onPress={() => navigation.navigate('EditScreen', { dishes })} />
-      <Button title="Filter Menu" onPress={() => navigation.navigate('FilterScreen', { dishes })} />
+        <Button title="Edit Menu" onPress={() => navigation.navigate('EditScreen', { dishes })} />
+        <Button title="Filter Menu" onPress={() => navigation.navigate('FilterScreen', { dishes })} />
       </View>
-
     </View>
   );
 }
@@ -44,6 +47,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   dishContainer: {
     backgroundColor: '#f8f8f8',
@@ -59,11 +67,19 @@ const styles = StyleSheet.create({
   averagePriceText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 20,
+    marginVertical: 20,
+    textAlign: 'center',
   },
-  
   fixToText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginVertical: 10,
+    marginTop: 10,
+  },
+  noDataText: {
+    textAlign: 'center',
+    color: '#888',
+    fontStyle: 'italic',
+    marginVertical: 20,
   },
 });
