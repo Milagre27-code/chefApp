@@ -8,6 +8,8 @@ import EditScreen from './EditScreen';
 import SplashScreen from './SplashScreen'; 
 import CheckOutScreen from './CheckOutScreeen'; 
 import { RootStackParamList } from './types'; 
+import 'react-native-get-random-values';
+
 
 const Stack = createStackNavigator<RootStackParamList>();
 

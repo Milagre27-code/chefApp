@@ -92,14 +92,13 @@ export default function EditScreen({ route, navigation }: Props) {
         onValueChange={(itemValue) => setCategory(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item label="Select a category" value="" />
         <Picker.Item label="Mains" value="Mains" />
         <Picker.Item label="Starters" value="Starters" />
         <Picker.Item label="Desserts" value="Desserts" />
       </Picker>
 
       <TextInput
-        style={styles.input}
+        style={styles.price}
         placeholder="Price"
         value={price}
         keyboardType="numeric" // Ensures only numbers can be entered
@@ -152,6 +151,15 @@ const styles = StyleSheet.create({
   fixToText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  price: {
+    borderRadius:30,
+    marginTop:100,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingHorizontal: 10,
   },
 
 });
