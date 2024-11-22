@@ -4,7 +4,6 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList, Dish } from './types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-
 type Props = {
   route: RouteProp<RootStackParamList, 'MenuScreen'>;
   navigation: StackNavigationProp<RootStackParamList, 'MenuScreen'>;
@@ -13,13 +12,32 @@ type Props = {
 export default function MenuScreen({ navigation, route }: Props) {
   const { dishes = [] } = route.params || {};
 
-  const totalPrice = dishes.reduce((sum, dish) => sum + dish.price, 0);
-  const averagePrice = dishes.length > 0 ? (totalPrice / dishes.length).toFixed(2) : 0;
+  const calculateAveragePriceByCategory = () => {
+    const categoryTotals: { [key: string]: { total: number; count: number } } = {};
+
+    // Group dishes by category and calculate totals
+    dishes.forEach((dish) => {
+      if (!categoryTotals[dish.category]) {
+        categoryTotals[dish.category] = { total: 0, count: 0 };
+      }
+      categoryTotals[dish.category].total += dish.price;
+      categoryTotals[dish.category].count += 1;
+    });
+
+    // Calculate averages for each category
+    return Object.keys(categoryTotals).map((category) => ({
+      category,
+      average: (categoryTotals[category].total / categoryTotals[category].count).toFixed(2),
+    }));
+  };
+
+  const averagePricesByCategory = calculateAveragePriceByCategory();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Menu</Text>
-      
+
+      {/* Render list of dishes */}
       <FlatList
         data={dishes}
         keyExtractor={(item) => item.id.toString()}
@@ -29,13 +47,22 @@ export default function MenuScreen({ navigation, route }: Props) {
             <Text>{item.name}</Text>
             <Text>{item.description}</Text>
             <Text>Price: R{item.price}</Text>
-            <Text>{item.category}</Text>
+            <Text>Category: {item.category}</Text>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.noDataText}>No dishes available</Text>}
       />
 
-      <Text style={styles.averagePriceText}>Average Dish Price: R{averagePrice}</Text>
+      {/* Render average prices by category */}
+      <View style={styles.averagePriceContainer}>
+        <Text style={styles.sectionTitle}>Average Prices by Category:</Text>
+        {averagePricesByCategory.map(({ category, average }) => (
+          <Text key={category} style={styles.averagePriceText}>
+            {category}: R{average}
+          </Text>
+        ))}
+      </View>
+
       <View style={styles.fixToText}>
         <Button title="Edit Menu" onPress={() => navigation.navigate('EditScreen', { dishes })} />
         <Button title="Filter Menu" onPress={() => navigation.navigate('FilterScreen', { dishes })} />
@@ -65,11 +92,17 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 10,
   },
+  averagePriceContainer: {
+    marginVertical: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   averagePriceText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 20,
-    textAlign: 'center',
+    marginBottom: 5,
   },
   fixToText: {
     flexDirection: 'row',
@@ -83,5 +116,4 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     marginVertical: 20,
   },
-  
 });
