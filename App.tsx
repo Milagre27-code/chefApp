@@ -6,7 +6,6 @@ import MenuScreen from './MenuScreen';
 import FilterScreen from './FilterScreen';
 import EditScreen from './EditScreen';
 import SplashScreen from './SplashScreen'; 
-import CheckOutScreen from './CheckOutScreeen'; 
 import { RootStackParamList } from './types'; 
 import 'react-native-get-random-values';
 
@@ -35,7 +34,6 @@ export default function App() {
     <Stack.Navigator initialRouteName="MenuScreen">
     <Stack.Screen name="MenuScreen" component={MenuScreen} />
     <Stack.Screen name="EditScreen" component={EditScreen} /> 
-    <Stack.Screen name="CheckOutScreen" component={CheckOutScreen} />
      <Stack.Screen name="FilterScreen" component={FilterScreen} /> 
     </Stack.Navigator>
   </NavigationContainer>

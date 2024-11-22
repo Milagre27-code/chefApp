@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, ScrollView } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList, Dish } from './types'; // Adjust the import path as needed
+import { RootStackParamList, Dish } from './types'; 
 import * as ImagePicker from 'expo-image-picker'; // Import ImagePicker
 import { v4 as uuidv4 } from 'uuid'; 
 import { Picker } from '@react-native-picker/picker'; // Import Picker
 
 type Props = {
   route: RouteProp<RootStackParamList, 'EditScreen'>;
-  navigation: any; // Optionally type navigation if used
+  navigation: any; 
 };
 
 export default function EditScreen({ route, navigation }: Props) {
-  const { dishes } = route.params; // Access dishes from params
+  const { dishes: initialDishes } = route.params;
+  const [dishes, setDishes] = useState<Dish[]>(initialDishes);
   const [image, setImage] = useState<string | null>(null); // State for the selected image
   const [name, setName] = useState<string>(''); // State for the dish name
   const [description, setDescription] = useState<string>('');
@@ -54,23 +55,27 @@ export default function EditScreen({ route, navigation }: Props) {
       category, // Add the selected category
     };
 
-    // Navigate back to Menu screen and pass the updated dishes array
+    // Add new dish to dishes and update state
+    setDishes([...dishes, newDish]);
+
+    // Navigate back to Menu screen with updated dishes
     navigation.navigate('MenuScreen', { dishes: [...dishes, newDish] });
   };
 
-  const handleGoToCheckout = () => {
-    // Navigate to Checkout screen and pass the current dishes
-    navigation.navigate('CheckOutScreen', { dishes });
+  const handleDeleteDish = (id: string) => {
+    const updatedDishes = dishes.filter(dish => dish.id !== id);
+    // Update the dishes state with the filtered array
+    setDishes(updatedDishes);
+    navigation.navigate('MenuScreen', { dishes: updatedDishes });
   };
 
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Add Dish</Text>
       
-   
       <Button title="Select Image from Gallery" onPress={selectImage} />
 
-  
       {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
       <TextInput
         style={styles.input}
@@ -105,10 +110,26 @@ export default function EditScreen({ route, navigation }: Props) {
         onChangeText={setPrice}
       />
       <View style={styles.fixToText}>
-      <Button title="Add Dish" onPress={handleAddDish} />
-      <Button  title="Go to Checkout" onPress={handleGoToCheckout}  />
+        <Button title="Add Dish" onPress={handleAddDish} />
       </View>
-    </View>
+      <Text style={styles.separeter}>Dishes added</Text>
+      
+      {/* Render dishes manually */}
+      {dishes.length === 0 ? (
+        <Text style={styles.noDataText}>No dishes available</Text>
+      ) : (
+        dishes.map((dish) => (
+          <View key={dish.id} style={styles.dishContainer}>
+            <Image source={{ uri: dish.image }} style={styles.image} />
+            <Text>{dish.name}</Text>
+            <Text>{dish.description}</Text>
+            <Text>Price: R{dish.price}</Text>
+            <Text>{dish.category}</Text>
+            <Button title="Delete" onPress={() => handleDeleteDish(dish.id)} />
+          </View>
+        ))
+      )}
+    </ScrollView>
   );
 }
 
@@ -122,6 +143,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  separeter:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+    borderBottomWidth: 6, 
+    borderBottomColor: '#000', 
+  },
   input: {
     borderRadius:30,
     marginTop:1,
@@ -130,6 +159,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
+  },
+
+  noDataText: {
+    textAlign: 'center',
+    color: '#888',
+    fontStyle: 'italic',
+    marginVertical: 20,
   },
   
   imagePreview: {
@@ -161,5 +197,15 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingHorizontal: 10,
   },
-
+  dishContainer: {
+    backgroundColor: '#f8f8f8',
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
 });

@@ -13,10 +13,8 @@ export type Dish = {
 export type RootStackParamList = {
     MenuScreen: { dishes: Dish[] };
     EditScreen: { dishes: Dish[] };
-    CheckOutScreen: { dishes: Dish[] };
     FilterScreen: { dishes: Dish[] };
   };
   
 export type MenuScreenRouteProp = RouteProp<RootStackParamList, 'MenuScreen'>;
 export type EditScreenRouteProp = RouteProp<RootStackParamList, 'EditScreen'>;
-export type CheckOutScreenRouteProp = RouteProp<RootStackParamList, 'CheckOutScreen'>;
